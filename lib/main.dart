@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'event_list/view_models/event_view_model.dart';
-import 'models/objectbox.dart';
-import 'components/event_add.dart';
-import 'screens/event_list_view.dart';
+import 'event_list/view_models/events_view_model.dart';
 
-/// Provides access to the ObjectBox Store throughout the app.
-late ObjectBox objectbox;
+import 'package:provider/provider.dart';
+import 'package:sqliteapp/event_list/views/add_event_view.dart';
+import 'package:sqliteapp/event_list/views/event_list_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  objectbox = await ObjectBox.create();
+  // Initialize ObjectBox
+  EventViewModel _ = EventViewModel();
+  _.initObjectBox();
 
   runApp(const MyApp());
 }
@@ -19,7 +18,6 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -28,7 +26,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'ObjectBox Relations Application',
+        title: 'Event Manager',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
@@ -46,13 +44,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String query = '';
-
   @override
   Widget build(BuildContext context) {
+    EventViewModel eventViewModel = context.watch<EventViewModel>();
     return Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  print('is loading');
+                  await eventViewModel.loadData();
+                  print('is loaded');
+                },
+                icon: const Icon(Icons.download))
+          ],
+        ),
         body: Padding(
-          padding: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               TextField(
@@ -62,29 +70,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   labelText: 'Search',
                 ),
                 onChanged: (text) {
-                  // if (text.isEmpty) {
                   setState(() {
-                    query = text;
+                    eventViewModel.setSearchQuery(text);
                   });
-                  // }
                 },
                 onSubmitted: (value) {
                   setState(() {
-                    query = value;
+                    eventViewModel.setSearchQuery(value);
                   });
                 },
               ),
-              Expanded(
-                  child: EventList(
-                query: query,
-              )),
+              const Expanded(child: EventList()),
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const AddEvent()));
+                MaterialPageRoute(builder: (context) => const AddEventView()));
           },
           child: const Icon(Icons.add),
         ));

@@ -14,9 +14,9 @@ import 'package:objectbox/internal.dart'; // generated code can access "internal
 import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'models/event_models/event.dart';
-import 'models/event_models/owner.dart';
-import 'models/event_models/task.dart';
+import 'event_list/models/event.dart';
+import 'event_list/models/owner.dart';
+import 'event_list/models/task.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
