@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sqliteapp/event_list/view_models/events_view_model.dart';
 import 'package:sqliteapp/event_list/view_models/object_box_view_model.dart';
 import 'package:sqliteapp/event_list/views/event_list_view.dart';
+import 'package:sqliteapp/utils/navigation_utils.dart';
 
 class EventView extends StatefulWidget {
   const EventView({super.key});
@@ -64,6 +65,12 @@ class _EventViewState extends State<EventView> {
             const Expanded(child: EventList()),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          opentAddEventView(context);
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

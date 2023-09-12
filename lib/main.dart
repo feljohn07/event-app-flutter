@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sqliteapp/dashboard/view_model/dashboard_view_model.dart';
 import 'package:sqliteapp/event_list/view_models/object_box_view_model.dart';
-import 'package:sqliteapp/event_list/views/event_view.dart';
 import 'package:sqliteapp/owner_list/view_models/owner_view_model.dart';
 import 'package:sqliteapp/task_list/view_models/task_view_model.dart';
 import 'package:sqliteapp/utils/navigation_utils.dart';
@@ -53,37 +52,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     Widget page;
-
     try {
       page = routes[_selectedIndex]['widget'];
     } on Exception catch (e) {
       throw UnimplementedError('no widget for $_selectedIndex: $e');
     }
-
-    ObjectBoxViewModel objectBoxViewModel = context.watch<ObjectBoxViewModel>();
-    EventViewModel eventViewModel = context.watch<EventViewModel>();
-
     return Scaffold(
       drawer: Drawer(
         child: Column(
           children: routes.asMap().entries.map((e) {
-
-            if(e.value['isHeader'] ) {
+            if (e.value['isHeader']) {
               return const DrawerHeader(
                 child: Column(
                   children: [
                     Text('Event Manager'),
                     SizedBox(height: 20),
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundImage: AssetImage('assets/images/logo.png'),
-                    ),
                   ],
                 ),
               );
@@ -103,12 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: page,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          opentAddEventView(context);
-        },
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
