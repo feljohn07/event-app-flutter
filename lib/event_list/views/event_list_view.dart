@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqliteapp/event_list/view_models/events_view_model.dart';
-import 'package:sqliteapp/event_list/views/task_list_view.dart';
+import 'package:sqliteapp/task_list/views/event_task_list_view.dart';
+import 'package:sqliteapp/utils/confirm.dart';
+import 'package:sqliteapp/utils/navigation_utils.dart';
 import '../models/event.dart';
 import 'package:sqliteapp/event_list/components/event_item.dart';
 
@@ -31,33 +33,17 @@ class _EventListState extends State<EventList> {
                     event: snapshot.data![index],
                     onTap: () {
                       eventViewModel.setSelectedEvent(snapshot.data![index]);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const TaskListView()));
+                      opentTaskListView(context);
                     },
-                    onTapDelete: (
-                      Event event,
-                    ) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Confirm Delete'),
-                            content: Text('You will delete ${event.name}'),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Cancel')),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    eventViewModel.deleteEvent(event.id);
-                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Deleted')));
-                                  },
-                                  child: const Text('Delete')),
-                            ],
-                          );
+                    onTapDelete: (Event event) {
+                      confirmDelete(
+                        context,
+                        'You will delete ${event.name}',
+                        () {
+                          Navigator.of(context).pop();
+                          eventViewModel.deleteEvent(event.id);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Deleted')));
                         },
                       );
                     });

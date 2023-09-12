@@ -15,8 +15,8 @@ import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'event_list/models/event.dart';
-import 'event_list/models/owner.dart';
-import 'event_list/models/task.dart';
+import 'owner_list/models/owner.dart';
+import 'task_list/models/task.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 

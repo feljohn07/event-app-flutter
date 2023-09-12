@@ -1,5 +1,5 @@
 import 'package:objectbox/objectbox.dart';
-import 'task.dart';
+import '../../task_list/models/task.dart';
 
 @Entity()
 class Event {

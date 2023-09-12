@@ -1,6 +1,6 @@
 import 'package:objectbox/objectbox.dart';
-import 'event.dart';
-import 'owner.dart';
+import '../../event_list/models/event.dart';
+import '../../owner_list/models/owner.dart';
 
 
 @Entity()
@@ -8,7 +8,6 @@ class Task {
   @Id()
   int id;
   String text;
-
   bool status;
 
   Task(this.text, {this.id = 0, this.status = false});

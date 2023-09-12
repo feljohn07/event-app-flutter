@@ -20,6 +20,7 @@ class EventListItem extends StatelessWidget {
               Text(event.date?.toString() ?? ''),
               Text(event.description ?? ''),
               Text(event.location ?? ''),
+              Text(event.id.toString()),
             ]),
             trailing: IconButton(
               icon: const Icon(Icons.delete),
